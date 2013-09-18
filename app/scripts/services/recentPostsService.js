@@ -2,14 +2,14 @@
 
   'use strict';
 
-  angular.module('recentPostsService', ['ngResource'])
+  angular.module('recentPostsService', ['LocalStorageModule','DeferredUpdateModule','ngResource'])
 
-    .factory('recentPostsService', ['$resource', '$q', function ($resource, $q) {
+    .factory('recentPostsService', ['$resource', 'localStorageService','deferredUpdateService', function ($resource, localStorageService, deferredUpdateService) {
       return {
         getRecentPosts: function () {
           var posts, request, deferred, promise;
 
-          deferred = $q.defer();
+          deferred = deferredUpdateService.defer();
           promise = deferred.promise;
 
           posts = $resource('http://lithosphere.lithium.com/restapi/vc/posts/recent?restapi.response_format=json&restapi.response_style=-types,-null',{callback: 'JSON_CALLBACK'},
@@ -20,8 +20,11 @@
           request = {};
 
           posts.get(request, function (response) {
+            localStorageService.add('recent',response);
             deferred.resolve(response);
           });
+
+          deferred.resolve(localStorageService.get('recent'));
 
           return promise;
         }
