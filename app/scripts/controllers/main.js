@@ -7,10 +7,10 @@
   .controller('MainCtrl', ['$scope', 'recentPostsService',function ($scope, recentPostsService) {
     $scope.messages = ['hello'];
 
-    console.log($scope.messages);
-
     recentPostsService.getRecentPosts().then(function (data) {
+      console.log(data);
        $scope.messages = data.response.messages.message;
+
     });
 
   }]);
