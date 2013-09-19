@@ -8,6 +8,12 @@ body {
     background: transparent url(/app/assets/images/ajax-loader.gif) no-repeat center center;
 }
 
+.toggle-unit {
+    margin: 30px auto 0 auto;
+    width: 600px;
+    float: right;
+}
+
 .hero-unit {
     margin: 30px auto 0 auto;
     width: 600px;
