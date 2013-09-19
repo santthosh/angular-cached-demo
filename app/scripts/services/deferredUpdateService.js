@@ -1,7 +1,7 @@
-(function (ng) {
+(function () {
 
   // Define the module for this code.
-  var app = ng.module("DeferredUpdateModule", []);
+  var app = angular.module("DeferredUpdateModule", []);
 
   // When defining the Deferred object, we need to have two things be true:
   //
