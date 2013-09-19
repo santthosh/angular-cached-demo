@@ -9,6 +9,11 @@
         getRecentPosts: function () {
           var posts, request, deferred, promise;
 
+          var cachingEnabled = localStorageService.get('cachingEnabled');
+          if(cachingEnabled === undefined) {
+            cachingEnabled = 'YES';
+          }
+
           deferred = deferredUpdateService.defer();
           promise = deferred.promise;
 
@@ -20,11 +25,18 @@
           request = {};
 
           posts.get(request, function (response) {
-            localStorageService.add('recent',response);
+            if(cachingEnabled === 'YES') {
+              localStorageService.add('recent',response);
+            }
             deferred.resolve(response);
           });
 
-          deferred.resolve(localStorageService.get('recent'));
+          if(cachingEnabled === 'YES') {
+            var response = localStorageService.get('recent');
+            if(response != undefined)  {
+              deferred.resolve(response);
+            }
+          }
 
           return promise;
         }

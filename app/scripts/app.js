@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  angular.module('angularCachedDemo', ['LocalStorageModule','DeferredUpdateModule','recentPostsService','ngResource','ngRoute'])
+  angular.module('angularCachedDemo', ['LocalStorageModule','DeferredUpdateModule','LoadingModule','recentPostsService','ngResource','ngRoute'])
     .config(function ($routeProvider) {
       $routeProvider
         .when('/', {
