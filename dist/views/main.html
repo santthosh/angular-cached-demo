@@ -1,0 +1,18 @@
+<div class="toggle-unit">
+    <label class="checkbox toggle ios" style="width:100px" onclick="">
+        <input type="checkbox" ng-model="cacheEnabled" ng-true-value="YES" ng-false-value="NO" ng-change="toggleCache()" ng-init="initCache()" ng-disabled="cacheSupport()">
+        <span>
+            Caching
+            <span>Off</span>
+            <span>On</span>
+        </span>
+        <a class="slide-button"></a>
+    </label>
+</div>
+<div class="hero-unit">
+    <h1>Lithosphere - Recent Posts</h1>
+    <loading></loading>
+    <ul>
+      <li ng-repeat="message in messages">{{message.subject}}</li>
+    </ul>
+</div>

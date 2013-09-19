@@ -1,0 +1,13 @@
+{
+  "name": "angular-local-storage",
+  "homepage": "https://github.com/grevory/angular-local-storage",
+  "_release": "4b74562d85",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "4b74562d85caf4ddd583b0bedef2abe057b0e2aa"
+  },
+  "_source": "git@github.com:grevory/angular-local-storage.git",
+  "_target": "master",
+  "_originalSource": "git@github.com:grevory/angular-local-storage"
+}

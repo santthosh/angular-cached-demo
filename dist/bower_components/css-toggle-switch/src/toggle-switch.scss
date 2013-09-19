@@ -1,0 +1,471 @@
+/*
+ * CSS TOGGLE SWITCHES
+ * Unlicense
+ *
+ * Ionuț Colceriu - ghinda.net
+ * https://github.com/ghinda/css-toggle-switch
+ *
+ */
+
+@import "compass";
+
+/* Toggle Switches
+ */
+
+/* Shared
+ */
+@mixin switch-shared() {
+
+	display: block;
+	height: 30px;
+
+	* {
+		@include box-sizing(border-box);
+	}
+
+	.slide-button {
+		display: block;
+
+		@include transition(all 0.3s ease-out);
+	}
+
+	label,
+	> span {
+		line-height: 30px;
+		vertical-align: middle;
+	}
+
+	/* Outline the toggles when the inputs are focused
+	 */
+	input:focus ~ .slide-button,
+	input:focus + label {
+		outline: 1px dotted #888;
+	}
+
+}
+
+/* Checkbox
+ */
+@mixin toggle() {
+
+	@include switch-shared();
+
+	position: relative;
+	padding: 0;
+	margin-left: 100px;
+
+	/* Position the label over all the elements, except the slide-button
+	 * Clicking anywhere on the label will change the switch-state
+	 */
+	label {
+		position: relative;
+		z-index: 3;
+
+		display: block;
+		width: 100%;
+	}
+
+	/* Don't hide the input from screen-readers and keyboard access
+	 */
+	input {
+		position: absolute;
+		opacity: 0;
+		z-index: 5;
+
+		&:checked ~ .slide-button {
+			right: 0%;
+		}
+
+	}
+
+	> span {
+		position: absolute;
+		left: -100px;
+
+		width: 100%;
+		margin: 0;
+		padding-right: 100px;
+
+		text-align: left;
+
+		span {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 5;
+
+			display: block;
+			width: 50%;
+			margin-left: 100px;
+
+			text-align: center;
+
+			&:last-child {
+				left: 50%;
+			}
+		}
+
+	}
+
+	.slide-button {
+		position: absolute;
+		right: 50%;
+		top: 0;
+		z-index: 4;
+
+		display: block;
+		width: 50%;
+		height: 100%;
+		padding: 0;
+	}
+
+}
+
+/* Radio Switch
+ */
+@mixin switch() {
+
+	@include switch-shared();
+
+	position: relative;
+	padding: 0;
+
+	input {
+		position: absolute;
+		opacity: 0;
+	}
+
+	label {
+		position: relative;
+		z-index: 2;
+
+		float: left;
+		width: 50%;
+		height: 100%;
+
+		margin: 0;
+		text-align: center;
+	}
+
+	.slide-button {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 0;
+		z-index: 1;
+
+		width: 50%;
+		height: 100%;
+	}
+
+	input:last-of-type:checked ~ .slide-button {
+		left: 50%;
+	}
+
+	/* Generate styles for the multiple states */
+	@for $i from 1 through 3 {
+		$state: $i + 2;
+		$width: 100 / ($i + 2);
+
+		&.switch-#{$state} {
+			label,
+			.slide-button {
+				width: $width * 1%;
+			}
+		}
+
+		@for $j from 2 through ($i + 1) {
+			&.switch-#{$state} input:checked:nth-of-type(#{$j}) ~ .slide-button {
+				left: $width * ($j - 1) * 1%;
+			}
+		}
+
+		&.switch-#{$state} input:checked:last-of-type ~ .slide-button {
+			left: 100 - $width * 1%;
+		}
+	}
+
+}
+
+/* Hide by default
+ */
+.switch .slide-button,
+.toggle span span {
+	display: none;
+}
+
+/* We can't test for a specific feature,
+ * so we only target browsers with support for media queries.
+ */
+@media only screen {
+
+	/* Checkbox toggle
+	 */
+	.toggle {
+		@include toggle();
+	}
+
+	/* Radio switch
+	 */
+	.switch {
+		@include switch();
+	}
+
+	/* Standalone Themes */
+
+	/* Candy Theme
+	 * Based on the "Sort Switches / Toggles (PSD)" by Ormal Clarck
+	 * http://www.premiumpixels.com/freebies/sort-switches-toggles-psd/
+	 */
+	.candy {
+		background-color: #2d3035;
+		border-radius: 3px;
+
+		color: #fff;
+		font-weight: bold;
+		text-align: center;
+		text-shadow: 1px 1px 1px #191b1e;
+
+		@include box-shadow(
+			inset 0 2px 6px rgba(0, 0, 0, 0.3),
+			0 1px 0px rgba(255, 255, 255, 0.2)
+		);
+
+		label {
+			@include transition(color 0.2s ease-out);
+		}
+
+		input:checked + label {
+			color: #333;
+			text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+		}
+
+		.slide-button {
+			border: 1px solid #333;
+			background-color: #70c66b;
+			border-radius: 3px;
+
+			@include background-image(
+				linear-gradient(top, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0))
+			);
+
+			@include box-shadow(
+				0 1px 1px rgba(0, 0, 0, 0.2),
+				inset 0 1px 1px rgba(255, 255, 255, 0.45)
+			);
+		}
+
+		> span {
+			color: #333;
+
+			text-shadow: none;
+		}
+
+		span {
+			color: #fff;
+		}
+
+		&.blue .slide-button {
+			background-color: #38a3d4;
+		}
+
+		&.yellow .slide-button {
+			background-color: #f5e560;
+		}
+	}
+
+	/* Android Theme
+	 */
+	.android {
+		background-color: #464747;
+		border-radius: 1px;
+
+		color: #fff;
+
+		@include box-shadow(
+			inset rgba(0, 0, 0, 0.1) 0 1px 0
+		);
+
+		> span span {
+			opacity: 0;
+
+			@include transition(all 0.1s);
+
+			&:first-of-type {
+				opacity: 1;
+			}
+		}
+
+		.slide-button {
+			background-color: #666;
+			border-radius: 1px;
+
+			@include box-shadow(
+				inset rgba(255, 255, 255, 0.2) 0 1px 0,
+				rgba(0, 0, 0, 0.3) 0 1px 0
+			);
+		}
+
+		/* Selected ON toggle
+		 */
+		&.toggle input:checked {
+
+			~ .slide-button {
+				background-color: #0E88B1;
+			}
+
+			~ span span {
+				&:first-of-type {
+					opacity: 0;
+				}
+
+				&:last-of-type {
+					opacity: 1;
+				}
+			}
+
+
+		}
+
+		&.switch,
+		> span span {
+			font-size: 85%;
+			text-transform: uppercase;
+		}
+
+	}
+
+	/* iOS Theme
+	 */
+	.ios {
+		$white: #fff;
+		$grey: #d3d3d3;
+		$green: #53d76a;
+
+		&.toggle {
+			color: $grey;
+
+			.slide-button {
+				left: 0;
+				width: 30px;
+				background-color: $white;
+				border: 1px solid $grey;
+				border-radius: 100%;
+
+				@include transition(all 0.3s ease-out);
+
+				@include box-shadow(
+					inset 0 -3px 3px hsla(0,0%,0%,.025),
+					0 1px 4px hsla(0,0%,0%,.15),
+					0 4px 4px hsla(0,0%,0%,.1)
+				);
+			}
+
+			> span span {
+				width: 100%;
+				left: 0;
+				opacity: 0;
+
+				&:first-of-type {
+					opacity: 1;
+					padding-left: 30px
+				}
+
+				&:last-of-type {
+					padding-right: 30px;
+				}
+			}
+
+			> span:before {
+				content: '';
+				display: block;
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				left: 100px;
+				top: 0;
+
+				background-color: darken($white, 2%);
+				border: 1px solid $grey;
+				border-radius: 30px;
+
+				@include transition(all 0.5s ease-out);
+
+				@include box-shadow(
+					inset rgba(0, 0, 0, 0.1) 0 1px 0
+				);
+			}
+
+			input:checked {
+				~ .slide-button {
+					left: 100%;
+					margin-left: -30px;
+				}
+
+				~ span:before {
+					border-color: $green;
+
+					@include box-shadow(inset 0 0 0 30px $green);
+				}
+
+				~ span span {
+					&:first-of-type {
+						opacity: 0;
+					}
+
+					&:last-of-type {
+						opacity: 1;
+
+						color: $white;
+					}
+				}
+			}
+
+		}
+
+		&.switch {
+			background-color: darken($white, 2%);
+			border: 1px solid $grey;
+			border-radius: 30px;
+
+			color: darken($grey, 30%);
+
+			@include box-shadow(
+				inset rgba(0, 0, 0, 0.1) 0 1px 0
+			);
+
+			.slide-button {
+				background-color: $green;
+				border-radius: 25px;
+
+				@include transition(all 0.3s ease-out);
+			}
+
+		}
+
+		input:checked + label {
+			color: darken($grey, 60%);
+		}
+
+	}
+
+}
+
+/* Bugfix for older Webkit, including mobile Webkit. Adapted from
+ * http://css-tricks.com/webkit-sibling-bug/
+ *
+ * Improved by @seantimm, to fix memory use issues
+ * https://github.com/zurb/foundation/pull/2725
+ */
+.toggle,
+.switch {
+	@media only screen and (-webkit-min-device-pixel-ratio:0) and (max-device-width:480px) {
+		-webkit-animation: webkitSiblingBugfix infinite 1s;
+	}
+
+	@media only screen and (-webkit-min-device-pixel-ratio:1.5) {
+		-webkit-animation: none 0;
+	}
+}
+
+@-webkit-keyframes webkitSiblingBugfix { from { position: relative; } to { position: relative; } }
